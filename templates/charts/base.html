@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <title>Frequency vs time</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+<div>
+    <form action="{% url 'chart' %}" method="GET">
+        {% csrf_token %}
+        <label>Date:</label>
+        <input type="date" id="date" name="date">
+        <input type="submit" id="submit">
+    </form>
+</div>
+<div id="chart" style="width: 500px; height: 350px;"></div>
+<script>
+    var chart = document.getElementById('chart');
+    var myChart = echarts.init(chart);
+    var monthYear = {{month_year|safe}};
+    var count = {{count|safe}};
+    var option = {
+        title: {text: 'Purchases / Month'},
+        xAxis: {
+            name: 'Month-Year',
+            data: monthYear
+        },
+        yAxis: {
+            name: 'Count',
+        },
+        series: [{
+            type: 'bar',
+            data: count
+        }]
+    };
+    myChart.setOption(option);
+</script>
+</body>
+</html>
+
